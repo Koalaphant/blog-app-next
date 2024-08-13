@@ -9,11 +9,13 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  email     String  @unique
+  email     String   @unique
+  username  String   @unique
+  password  String   // You should ensure this field is stored securely (hashed)
   name      String?
-  role      Role    @default(USER)
+  role      Role     @default(USER)
   posts     Post[]
 }
 

@@ -1,16 +1,23 @@
-// app/prismatest/page.tsx
-
-import { PrismaClient } from "@prisma/client";
 import React from "react";
 
-const prisma = new PrismaClient();
-
 export default async function Page() {
-  const posts = await prisma.post.findMany();
+
+  const response = await fetch('http://localhost:3000/api/users');
+
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+
+  const data = await response.json();
+
+  console.log(data);
 
   return (
     <div>
-      {posts.map((post) => (
+      {/* Map over the posts and render them */}
+      {data.map((post: { id: number; title: string; content: string }) => (
         <div key={post.id}>
           <h2>{post.title}</h2>
           <p>{post.content}</p>
