@@ -13,7 +13,7 @@ model User {
   createdAt DateTime @default(now())
   email     String   @unique
   username  String   @unique
-  password  String   // You should ensure this field is stored securely (hashed)
+  password  String
   name      String?
   role      Role     @default(USER)
   posts     Post[]
