@@ -15,10 +15,12 @@ export default async function BlogSection() {
   const data: Post[] = await fetchPosts();
 
   return (
-    <section className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {data.map((post: Post) => (
-        <BlogCard key={post.id} post={post} />
-      ))}
+    <section className="flex justify-center">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        {data.map((post: Post) => (
+          <BlogCard key={post.id} post={post} />
+        ))}
+      </div>
     </section>
   );
 }
