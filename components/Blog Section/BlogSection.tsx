@@ -8,6 +8,7 @@ interface Post {
   content: string;
   createdAt: string;
   like_rating: number;
+  featured_image_url: string;
 }
 
 export default async function BlogSection() {
