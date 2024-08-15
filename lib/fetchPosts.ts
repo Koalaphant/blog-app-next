@@ -8,3 +8,4 @@ export async function fetchPosts() {
     const data = await response.json();
     return data;
   }
+
