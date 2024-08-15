@@ -1,18 +1,19 @@
 import React from "react";
-import { fetchUsers } from "@/lib/fetchUsers";
+import { fetchPosts } from "@/lib/fetchPosts";
 import BlogCard from "../Blog Card/BlogCard";
 
 interface Post {
   id: number;
   title: string;
   content: string;
+  createdAt: string;
 }
 
 export default async function BlogSection() {
-  const data: Post[] = await fetchUsers();
+  const data: Post[] = await fetchPosts();
 
   return (
-    <section className="grid grid-cols-2 gap-4">
+    <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {data.map((post: Post) => (
         <BlogCard key={post.id} post={post} />
       ))}
