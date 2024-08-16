@@ -18,13 +18,19 @@ export default async function Page() {
     <div className="my-10 lg:mx-10">
       <div className="container mx-auto max-w-full lg:max-w-8xl">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
-          <div className="relative h-[500px] bg-red-800 xl:col-span-3 rounded-lg overflow-hidden">
+          <div className="relative h-[500px] bg-red-800 xl:col-span-3 rounded-md sm:rounded-lg overflow-hidden">
             <img
               src={data[0].featured_image_url}
               alt=""
               className="w-full h-full object-cover"
             />
-            <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-end bg-black bg-opacity-50 p-8 gap-2">
+            <div
+              className="absolute top-0 left-0 w-full h-full flex flex-col justify-end p-8 gap-2"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0) 80%)",
+              }}
+            >
               <p className="text-sm text-gray-300 italic">
                 {formatDate(data[0].createdAt)}
               </p>
@@ -34,7 +40,7 @@ export default async function Page() {
               </p>
             </div>
           </div>
-          <div className="h-[300px]  bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
+          <div className="h-[500px]  bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
             <p>APR 14 - 14:00 GMT ANFIELD</p>
             <div className="flex mt-5">
               <div className="flex flex-col items-center">
