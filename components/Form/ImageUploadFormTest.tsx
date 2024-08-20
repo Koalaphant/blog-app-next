@@ -2,7 +2,6 @@
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { createClient } from "@supabase/supabase-js";
-import ImageUploadForm from "./ImageUploadFormTest";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -11,25 +10,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Supabase URL or Anonymous Key is not defined.");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export default function BlogForm() {
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+export default function ImageUploadForm() {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(
     null
   );
-
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleContentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setContent(e.target.value);
-  };
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -50,12 +39,13 @@ export default function BlogForm() {
 
     const fileName = `${Date.now()}-${file.name}`;
     const { data, error } = await supabase.storage
-      .from("your-bucket-name") // Replace with your bucket name
+      .from("featured_images") // Replace with your bucket name
       .upload(fileName, file);
 
     if (error) {
       console.error("Error uploading image:", error.message);
       setError("Failed to upload image.");
+      setSuccess("");
       return null;
     }
 
@@ -67,36 +57,15 @@ export default function BlogForm() {
 
     if (image) {
       const imagePath = await uploadImage(image);
-      if (!imagePath) return; // Stop form submission if image upload fails
-      // You might want to save `imagePath` to your database or form data here
-    }
-
-    try {
-      const response = await fetch("api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, content }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.log(errorData.message);
-        setError(errorData.message);
-        setSuccess("");
-        throw new Error("Network response was not ok");
+      if (imagePath) {
+        console.log("Image uploaded successfully:", imagePath);
+        setSuccess("Image uploaded successfully.");
+        setError("");
+      } else {
+        setError("Failed to upload image.");
       }
-
-      const result = await response.json();
-      console.log("Form Submitted successfully:", result);
-
-      setTitle("");
-      setContent("");
-      setSuccess("Submitted successfully.");
-      setError("");
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    } else {
+      setError("No image selected.");
     }
   };
 
@@ -104,27 +73,7 @@ export default function BlogForm() {
     <div className="min-w-full space-y-4 px-8">
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={handleTitleChange}
-            className="border p-2 mb-4 w-full"
-          />
-        </div>
-        <div>
-          <label htmlFor="content">Content:</label>
-          <input
-            id="content"
-            type="text"
-            value={content}
-            onChange={handleContentChange}
-            className="border p-2 w-full"
-          />
-        </div>
-        <div>
-          <label htmlFor="image">Featured Image:</label>
+          <label htmlFor="image">Upload Image:</label>
           <input
             id="image"
             type="file"
@@ -146,7 +95,7 @@ export default function BlogForm() {
           type="submit"
           className="bg-red-800 text-white py-2 px-8 rounded-lg mt-5"
         >
-          Submit
+          Upload
         </button>
       </form>
       {error && (
@@ -157,9 +106,6 @@ export default function BlogForm() {
           {success}
         </p>
       )}
-      <div>
-        <ImageUploadForm />
-      </div>
     </div>
   );
 }
