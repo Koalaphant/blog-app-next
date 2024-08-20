@@ -1,17 +1,8 @@
 "use client";
 
+import { uploadImage } from "@/lib/uploadImage";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { createClient } from "@supabase/supabase-js";
-import ImageUploadForm from "./ImageUploadFormTest";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Supabase URL or Anonymous Key is not defined.");
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+uploadImage;
 
 export default function BlogForm() {
   const [title, setTitle] = useState<string>("");
@@ -36,7 +27,6 @@ export default function BlogForm() {
       const file = e.target.files[0];
       setImage(file);
 
-      // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -45,39 +35,27 @@ export default function BlogForm() {
     }
   };
 
-  const uploadImage = async (file: File) => {
-    if (!file) return;
-
-    const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
-      .from("your-bucket-name") // Replace with your bucket name
-      .upload(fileName, file);
-
-    if (error) {
-      console.error("Error uploading image:", error.message);
-      setError("Failed to upload image.");
-      return null;
-    }
-
-    return data?.path;
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let imagePath = null;
+
     if (image) {
-      const imagePath = await uploadImage(image);
-      if (!imagePath) return; // Stop form submission if image upload fails
-      // You might want to save `imagePath` to your database or form data here
+      imagePath = await uploadImage(image, "featured_images");
+      console.log(imagePath, '<<<')
+      if (!imagePath) {
+        setError("Failed to upload image.");
+        return; 
+      }
     }
 
     try {
-      const response = await fetch("api/posts", {
+      const response = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, imagePath }),
       });
 
       if (!response.ok) {
@@ -93,10 +71,13 @@ export default function BlogForm() {
 
       setTitle("");
       setContent("");
+      setImage(null);
+      setImagePreview(null);
       setSuccess("Submitted successfully.");
       setError("");
     } catch (error) {
       console.error("Error submitting form:", error);
+      setError("Error submitting form.");
     }
   };
 
@@ -157,9 +138,6 @@ export default function BlogForm() {
           {success}
         </p>
       )}
-      <div>
-        <ImageUploadForm />
-      </div>
     </div>
   );
 }

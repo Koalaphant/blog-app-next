@@ -1,16 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Supabase URL or Anonymous Key is not defined.");
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { uploadImage } from "@/lib/uploadImage"; // Adjust the path as necessary
 
 export default function ImageUploadForm() {
   const [image, setImage] = useState<File | null>(null);
@@ -34,29 +25,11 @@ export default function ImageUploadForm() {
     }
   };
 
-  const uploadImage = async (file: File) => {
-    if (!file) return;
-
-    const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
-      .from("featured_images") // Replace with your bucket name
-      .upload(fileName, file);
-
-    if (error) {
-      console.error("Error uploading image:", error.message);
-      setError("Failed to upload image.");
-      setSuccess("");
-      return null;
-    }
-
-    return data?.path;
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (image) {
-      const imagePath = await uploadImage(image);
+      const imagePath = await uploadImage(image, "featured_images");
       if (imagePath) {
         console.log("Image uploaded successfully:", imagePath);
         setSuccess("Image uploaded successfully.");
