@@ -32,6 +32,7 @@ export default function BlogForm() {
         const errorData = await response.json();
         console.log(errorData.message);
         setError(errorData.message);
+        setSuccess("");
         throw new Error("Network response was not ok");
       }
 
@@ -41,6 +42,7 @@ export default function BlogForm() {
       setTitle("");
       setContent("");
       setSuccess("Submitted successfully.");
+      setError("");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
