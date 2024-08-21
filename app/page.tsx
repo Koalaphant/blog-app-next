@@ -40,6 +40,13 @@ export default async function Page() {
               </p>
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-4 px-2">
+            {data.map((post) => (
+              <div key={post.id}>
+                <h4 className="font-semibold">{post.title}</h4>
+              </div>
+            ))}
+          </div>
           <div className="h-[500px]  bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
             <p>APR 14 - 14:00 GMT ANFIELD</p>
             <div className="flex mt-5">
