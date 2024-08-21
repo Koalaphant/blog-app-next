@@ -41,7 +41,7 @@ export default async function Page() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 px-2">
-            {data.map((post) => (
+            {data.slice(1).map((post) => (
               <div key={post.id}>
                 <h4 className="font-semibold">{post.title}</h4>
               </div>
