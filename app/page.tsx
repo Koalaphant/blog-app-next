@@ -1,5 +1,6 @@
 import React from "react";
 import { truncateString } from "@/lib/truncateString";
+import RecentPosts from "@/components/Blog Section/RecentPosts";
 import { formatDate } from "@/utils/dateFormat";
 
 interface Post {
@@ -29,8 +30,8 @@ export default async function Page() {
   return (
     <div className="my-10 lg:mx-10">
       <div className="container mx-auto max-w-full lg:max-w-8xl">
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
-          <div className="relative h-[500px] bg-red-800 xl:col-span-3 rounded-md sm:rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 gap-4">
+          <div className="relative h-[500px] bg-red-800 rounded-md sm:rounded-lg overflow-hidden">
             <img
               src={data[0].featured_image_url}
               alt=""
@@ -52,14 +53,12 @@ export default async function Page() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 px-2">
+          <div className="grid gap-4  sm:grid-cols-2 md:grid-cols-3">
             {data.slice(1).map((post) => (
-              <div key={post.id}>
-                <h4 className="font-semibold">{post.title}</h4>
-              </div>
+              <RecentPosts key={post.id} post={post} />
             ))}
           </div>
-          <div className="h-[500px]  bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
+          <div className="h-[500px] bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
             <p>APR 14 - 14:00 GMT ANFIELD</p>
             <div className="flex mt-5">
               <div className="flex flex-col items-center">
