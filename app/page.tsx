@@ -28,7 +28,7 @@ async function fetchPosts() {
 export default async function Page() {
   const data: Post[] = await fetchPosts();
   return (
-    <div className="my-10 lg:mx-10">
+    <div className="my-10 mx-4 lg:mx-10">
       <div className="container mx-auto max-w-full lg:max-w-8xl">
         <div className="grid grid-cols-1 gap-4">
           <div className="relative h-[500px] bg-red-800 rounded-md sm:rounded-lg overflow-hidden">
@@ -53,7 +53,7 @@ export default async function Page() {
               </p>
             </div>
           </div>
-          <div className="grid gap-4  sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid gap-4  sm:grid-cols-2 md:grid-cols-3 md:pt-20">
             {data.slice(1).map((post) => (
               <RecentPosts key={post.id} post={post} />
             ))}
