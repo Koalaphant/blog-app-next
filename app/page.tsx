@@ -1,5 +1,4 @@
 import React from "react";
-import { fetchPosts } from "@/lib/fetchPosts";
 import { truncateString } from "@/lib/truncateString";
 import { formatDate } from "@/utils/dateFormat";
 
@@ -10,6 +9,19 @@ interface Post {
   createdAt: string;
   like_rating: number;
   featured_image_url: string;
+}
+
+async function fetchPosts() {
+  const response = await fetch("http://localhost:3000/api/posts", {
+    next: { revalidate: 4 },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 export default async function Page() {
