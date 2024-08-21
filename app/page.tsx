@@ -13,7 +13,7 @@ interface Post {
 
 async function fetchPosts() {
   const response = await fetch("http://localhost:3000/api/posts", {
-    next: { revalidate: 4 },
+    next: { revalidate: 5 },
   });
 
   if (!response.ok) {
