@@ -2,6 +2,7 @@ import React from "react";
 import { truncateString } from "@/lib/truncateString";
 import RecentPosts from "@/components/Blog Section/RecentPosts";
 import { formatDate } from "@/utils/dateFormat";
+import FixtureSection from "@/components/FixtureSection/FixtureSection";
 
 interface Post {
   id: number;
@@ -53,32 +54,15 @@ export default async function Page() {
               </p>
             </div>
           </div>
-          <div className="grid gap-4  sm:grid-cols-2 md:grid-cols-3 md:pt-20">
+          <div className="bg-slate-900 p-8 my-10 border-r-8 border-red-500">
+            <h2 className="text-white text-3xl">Latest Posts</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10">
             {data.slice(1).map((post) => (
               <RecentPosts key={post.id} post={post} />
             ))}
           </div>
-          <div className="h-[500px] bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
-            <p>APR 14 - 14:00 GMT ANFIELD</p>
-            <div className="flex mt-5">
-              <div className="flex flex-col items-center">
-                <div className="h-[50px] w-[50px] bg-cyan-50 mb-4"></div>
-                <p>Liverpool</p>
-              </div>
-              <div className="flex items-center justify-center mx-3">
-                <p>vs</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="h-[50px] w-[50px] bg-cyan-50 mb-4"></div>
-                <p>Arsenal</p>
-              </div>
-            </div>
-            <div>
-              <button className="bg-red-800 px-4 py-2 rounded-lg">
-                View All 23/24 Fixtures
-              </button>
-            </div>
-          </div>
+          <FixtureSection />
         </div>
       </div>
     </div>

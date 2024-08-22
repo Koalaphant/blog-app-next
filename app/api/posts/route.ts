@@ -35,7 +35,7 @@ export async function POST(request: Request) {
             data: {
                 title,
                 content,
-                featured_image_url: imagePath, // Include imagePath here
+                featured_image_url: imagePath,
             },
         });
 
