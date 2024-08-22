@@ -50,7 +50,9 @@ export default async function Page() {
                 <p className="text-sm text-gray-300 italic">
                   {formatDate(data[0].createdAt)}
                 </p>
-                <p className="text-white text-4xl font-bold">{data[0].title}</p>
+                <p className="text-white text-lg sm:text-4xl font-bold">
+                  {data[0].title}
+                </p>
                 <div
                   className="text-sm text-white font-light"
                   dangerouslySetInnerHTML={{
