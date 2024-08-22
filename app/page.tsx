@@ -3,6 +3,7 @@ import { truncateString } from "@/lib/truncateString";
 import RecentPosts from "@/components/Blog Section/RecentPosts";
 import { formatDate } from "@/utils/dateFormat";
 import FixtureSection from "@/components/FixtureSection/FixtureSection";
+import Link from "next/link";
 
 interface Post {
   id: number;
@@ -32,28 +33,33 @@ export default async function Page() {
     <div className="my-10 mx-4 lg:mx-10">
       <div className="container mx-auto max-w-full lg:max-w-8xl">
         <div className="grid grid-cols-1 gap-4">
-          <div className="relative h-[500px] bg-red-800 rounded-md sm:rounded-lg overflow-hidden">
-            <img
-              src={data[0].featured_image_url}
-              alt=""
-              className="w-full h-full object-cover"
-            />
-            <div
-              className="absolute top-0 left-0 w-full h-full flex flex-col justify-end p-8 gap-2"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0) 80%)",
-              }}
-            >
-              <p className="text-sm text-gray-300 italic">
-                {formatDate(data[0].createdAt)}
-              </p>
-              <p className="text-white text-4xl font-bold">{data[0].title}</p>
-              <p className="text-sm text-white font-light">
-                {truncateString(data[0].content)}
-              </p>
+          <Link href={`/posts/${data[0].id}`}>
+            <div className="relative h-[500px] bg-red-800 rounded-md sm:rounded-lg overflow-hidden">
+              <img
+                src={data[0].featured_image_url}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <div
+                className="absolute top-0 left-0 w-full h-full flex flex-col justify-end p-8 gap-2"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0) 80%)",
+                }}
+              >
+                <p className="text-sm text-gray-300 italic">
+                  {formatDate(data[0].createdAt)}
+                </p>
+                <p className="text-white text-4xl font-bold">{data[0].title}</p>
+                <div
+                  className="text-sm text-white font-light"
+                  dangerouslySetInnerHTML={{
+                    __html: truncateString(data[0].content),
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          </Link>
           <div className="bg-slate-900 p-8 my-10 border-r-8 border-red-500">
             <h2 className="text-white text-3xl">Latest Posts</h2>
           </div>
