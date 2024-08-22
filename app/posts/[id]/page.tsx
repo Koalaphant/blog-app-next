@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { formatDate } from "@/utils/dateFormat"; // Adjust the import path as needed
+import PostRating from "@/components/LikeButtons/PostRating";
 
 const prisma = new PrismaClient();
 
@@ -51,6 +52,10 @@ export default async function PostPage({ params }: { params: { id: string } }) {
           ),
         }}
       />
+
+      <div>
+        <PostRating postId={post.id} />
+      </div>
     </div>
   );
 }
