@@ -1,6 +1,5 @@
 import React from "react";
 import { formatDate } from "@/utils/dateFormat";
-import { format } from "path";
 
 interface Post {
   id: number;

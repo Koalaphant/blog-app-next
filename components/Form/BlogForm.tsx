@@ -1,12 +1,12 @@
 "use client";
 
 import { uploadImage } from "@/lib/uploadImage";
-import React, { useState, ChangeEvent, FormEvent } from "react";
-uploadImage;
+import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
+import TipTap from "./TipTap"; 
 
 export default function BlogForm() {
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<string>(""); 
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
@@ -14,12 +14,14 @@ export default function BlogForm() {
     null
   );
 
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setContent(e.target.value);
+  const handleContentChange = (newContent: string) => {
+    setContent(newContent); 
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,10 +44,9 @@ export default function BlogForm() {
 
     if (image) {
       imagePath = await uploadImage(image, "featured_images");
-      console.log(imagePath, '<<<')
       if (!imagePath) {
         setError("Failed to upload image.");
-        return; 
+        return;
       }
     }
 
@@ -60,7 +61,6 @@ export default function BlogForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData.message);
         setError(errorData.message);
         setSuccess("");
         throw new Error("Network response was not ok");
@@ -69,12 +69,20 @@ export default function BlogForm() {
       const result = await response.json();
       console.log("Form Submitted successfully:", result);
 
+      
       setTitle("");
-      setContent("");
+      setContent(""); 
       setImage(null);
       setImagePreview(null);
       setSuccess("Submitted successfully.");
       setError("");
+
+      handleContentChange("");
+
+      
+      if (imageInputRef.current) {
+        imageInputRef.current.value = "";
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("Error submitting form.");
@@ -82,59 +90,71 @@ export default function BlogForm() {
   };
 
   return (
-    <div className="min-w-full space-y-4 px-8">
+    <div className="min-w-full space-y-4 p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label>
+        <div className="mb-4">
+          <label
+            htmlFor="title"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Title:
+          </label>
           <input
             id="title"
             type="text"
             value={title}
             onChange={handleTitleChange}
-            className="border p-2 mb-4 w-full"
+            className="border border-gray-300 p-3 rounded-lg w-full"
           />
         </div>
-        <div>
-          <label htmlFor="content">Content:</label>
-          <input
-            id="content"
-            type="text"
-            value={content}
-            onChange={handleContentChange}
-            className="border p-2 w-full"
-          />
+        <div className="mb-4">
+          <label
+            htmlFor="content"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Content:
+          </label>
+          <TipTap content={content} onChange={handleContentChange} />{" "}
         </div>
-        <div>
-          <label htmlFor="image">Featured Image:</label>
+        <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Featured Image:
+          </label>
           <input
             id="image"
             type="file"
             accept="image/*"
-            className="border p-2 w-full mb-4"
+            className="border border-gray-300 p-3 rounded-lg w-full"
             onChange={handleImageChange}
+            ref={imageInputRef} 
           />
           {imagePreview && (
             <div className="w-full mt-4">
               <img
                 src={imagePreview as string}
                 alt="Preview"
-                className="w-40 h-40 object-cover border"
+                className="w-40 h-40 object-cover border border-gray-300 rounded-lg"
               />
             </div>
           )}
         </div>
         <button
           type="submit"
-          className="bg-red-800 text-white py-2 px-8 rounded-lg mt-5"
+          className="bg-red-800 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition-colors"
         >
           Submit
         </button>
       </form>
       {error && (
-        <p className="mt-4 border border-red-800 p-2 text-red-800">{error}</p>
+        <p className="mt-4 border border-red-800 bg-red-50 text-red-800 p-3 rounded-lg">
+          {error}
+        </p>
       )}
       {success && (
-        <p className="mt-4 border border-green-800 p-2 text-green-800">
+        <p className="mt-4 border border-green-800 bg-green-50 text-green-800 p-3 rounded-lg">
           {success}
         </p>
       )}

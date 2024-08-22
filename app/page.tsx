@@ -57,7 +57,7 @@ export default async function Page() {
           <div className="bg-slate-900 p-8 my-10 border-r-8 border-red-500">
             <h2 className="text-white text-3xl">Latest Posts</h2>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10">
+          <div className="grid sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10">
             {data.slice(1).map((post) => (
               <RecentPosts key={post.id} post={post} />
             ))}
