@@ -71,8 +71,7 @@ export default async function Page() {
               <RecentPosts key={post.id} post={post} />
             ))}
           </div>
-          {/* <FixtureSection /> */}
-          <FixtureSectionDummy />
+          <FixtureSection />
         </div>
       </div>
     </div>
