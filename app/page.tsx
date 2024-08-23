@@ -4,6 +4,7 @@ import RecentPosts from "@/components/Blog Section/RecentPosts";
 import { formatDate } from "@/utils/dateFormat";
 import FixtureSection from "@/components/FixtureSection/FixtureSection";
 import Link from "next/link";
+import FixtureSectionDummy from "@/components/FixtureSection/FixtureSectionDummy";
 
 interface Post {
   id: number;
@@ -70,7 +71,8 @@ export default async function Page() {
               <RecentPosts key={post.id} post={post} />
             ))}
           </div>
-          <FixtureSection />
+          {/* <FixtureSection /> */}
+          <FixtureSectionDummy />
         </div>
       </div>
     </div>

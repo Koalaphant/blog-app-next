@@ -1,5 +1,19 @@
 import React from "react";
-import fetchFixtures from "@/lib/fetchFixtures";
+
+// This function will fetch data from your local API route
+async function fetchFixtures() {
+  try {
+    const response = await fetch("http://localhost:3000/api/fixtures"); // Adjust the URL as necessary
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`Error fetching fixtures: ${err}`);
+    return { response: [] }; // Return an empty array in case of an error
+  }
+}
 
 export default async function FixtureSection() {
   let fixtures = [];
