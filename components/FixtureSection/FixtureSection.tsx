@@ -1,6 +1,5 @@
 import React from "react";
 
-// This function will fetch data from your local API route
 async function fetchFixtures() {
   try {
     const response = await fetch("http://localhost:3000/api/fixtures");
@@ -27,7 +26,7 @@ export default async function FixtureSection() {
 
   if (fixtures.length === 0) {
     return (
-      <div className="h-[500px] bg-slate-900 text-white flex flex-col justify-center items-center rounded-lg border-t-8 border-red-500 gap-4">
+      <div className="h-[100px] bg-slate-900 text-white flex justify-center items-center rounded-lg border-t-4 border-red-500">
         <p>No fixtures available</p>
       </div>
     );
@@ -51,66 +50,66 @@ export default async function FixtureSection() {
   const nextGameVenue = nextGame.fixture.venue.name;
 
   return (
-    <div className="bg-slate-800 p-20 flex justify-center items-center">
-      <div className="flex flex-col md:flex-row justify-between p-10 w-full max-w-6xl bg-slate-700 rounded-lg">
+    <div className="bg-slate-800 flex justify-center items-center py-4 my-9">
+      <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-6xl bg-slate-700 rounded-lg shadow-md">
         {/* Next Game Section */}
-        <div className="flex flex-col items-center w-full md:w-1/2 mb-10 md:mb-0">
-          <h1 className="text-white text-2xl mb-6">Next Game</h1>
-          <div className="flex justify-around w-full">
+        <div className="flex flex-col items-center w-full md:w-1/2">
+          <h1 className="text-white text-lg mb-2">Next Game</h1>
+          <div className="flex items-center">
             {/* Home Team */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mx-2">
               <img
-                className="h-[80px] mb-2"
+                className="h-[50px] mb-1"
                 src={nextGameHomeTeamLogoUrl}
                 alt={`${nextGameHomeTeamName} logo`}
               />
-              <p className="text-white text-xl">{nextGameHomeTeamName}</p>
+              <p className="text-white text-sm">{nextGameHomeTeamName}</p>
             </div>
             {/* Versus Label */}
-            <div className="flex flex-col items-center justify-center">
-              <p className="text-white text-xl">vs</p>
+            <div className="flex flex-col items-center mx-2">
+              <p className="text-white text-sm">vs</p>
             </div>
             {/* Away Team */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mx-2">
               <img
-                className="h-[80px] mb-2"
+                className="h-[50px] mb-1"
                 src={nextGameAwayTeamLogoUrl}
                 alt={`${nextGameAwayTeamName} logo`}
               />
-              <p className="text-white text-xl">{nextGameAwayTeamName}</p>
+              <p className="text-white text-sm">{nextGameAwayTeamName}</p>
             </div>
           </div>
-          <p className="text-white font-light text-sm mt-4">{nextGameDate}</p>
-          <p className="text-white font-light text-sm">{nextGameVenue}</p>
+          <p className="text-white font-light text-xs mt-2">{nextGameDate}</p>
+          <p className="text-white font-light text-xs">{nextGameVenue}</p>
         </div>
 
         {/* Last Game Section */}
-        <div className="flex flex-col items-center w-full md:w-1/2">
-          <h1 className="text-white text-2xl mb-6">Last Game</h1>
-          <div className="flex justify-around w-full">
+        <div className="flex flex-col items-center w-full md:w-1/2 mt-10 md:mt-0">
+          <h1 className="text-white text-lg mb-2">Last Game</h1>
+          <div className="flex items-center">
             {/* Home Team */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mx-2">
               <img
-                className="h-[80px] mb-2"
+                className="h-[50px] mb-1"
                 src={homeTeamLogoUrl}
                 alt={`${homeTeamName} logo`}
               />
-              <p className="text-white text-xl">{homeTeamName}</p>
-              <p className="text-white text-xl mt-2">{homeGoals}</p>
+              <p className="text-white text-sm">{homeTeamName}</p>
+              <p className="text-white text-sm mt-1">{homeGoals}</p>
             </div>
             {/* Versus Label */}
-            <div className="flex flex-col items-center justify-center">
-              <p className="text-white text-xl">vs</p>
+            <div className="flex flex-col items-center mx-2">
+              <p className="text-white text-sm">vs</p>
             </div>
             {/* Away Team */}
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mx-2">
               <img
-                className="h-[80px] mb-2"
+                className="h-[50px] mb-1"
                 src={awayTeamLogoUrl}
                 alt={`${awayTeamName} logo`}
               />
-              <p className="text-white text-xl">{awayTeamName}</p>
-              <p className="text-white text-xl mt-2">{awayGoals}</p>
+              <p className="text-white text-sm">{awayTeamName}</p>
+              <p className="text-white text-sm mt-1">{awayGoals}</p>
             </div>
           </div>
         </div>
