@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
 
-// Define the URL for the API endpoint
 const API_URL = "/api/posts";
 
 interface PostRatingProps {
@@ -22,6 +22,10 @@ const PostRating: React.FC<PostRatingProps> = ({ postId }) => {
         if (response.ok) {
           setLikeRating(data.like_rating || 0);
         }
+
+        // Check session cookies to determine if post is liked or disliked
+        setIsLiked(!!getCookie(`liked_${postId}`));
+        setIsDisliked(!!getCookie(`disliked_${postId}`));
       } catch (error) {
         console.error("Error fetching post:", error);
       }
@@ -30,7 +34,6 @@ const PostRating: React.FC<PostRatingProps> = ({ postId }) => {
     fetchPost();
   }, [postId]);
 
-  // Function to update like_rating on the server
   const updateLikeRating = async (newRating: number) => {
     try {
       const response = await fetch(`${API_URL}/${postId}`, {
@@ -52,26 +55,42 @@ const PostRating: React.FC<PostRatingProps> = ({ postId }) => {
   };
 
   const handleLike = () => {
-    // Increment the like_rating and toggle the like state
-    if (!isLiked) {
-      setIsLiked(true);
-      setIsDisliked(false); // Ensure dislike is toggled off
-      updateLikeRating(likeRating + 1);
-    } else {
-      setIsLiked(false);
+    if (isLiked) {
+      // If already liked, remove like
       updateLikeRating(likeRating - 1);
+      setIsLiked(false);
+      deleteCookie(`liked_${postId}`);
+    } else {
+      // If disliked, remove dislike first
+      if (isDisliked) {
+        updateLikeRating(likeRating + 1);
+        setIsDisliked(false);
+        deleteCookie(`disliked_${postId}`);
+      }
+      // Add like
+      updateLikeRating(likeRating + 1);
+      setIsLiked(true);
+      setCookie(`liked_${postId}`, "true", { maxAge: 60 * 60 });
     }
   };
 
   const handleDislike = () => {
-    // Decrement the like_rating and toggle the dislike state
-    if (!isDisliked) {
-      setIsDisliked(true);
-      setIsLiked(false); // Ensure like is toggled off
-      updateLikeRating(likeRating - 1);
-    } else {
-      setIsDisliked(false);
+    if (isDisliked) {
+      // If already disliked, remove dislike
       updateLikeRating(likeRating + 1);
+      setIsDisliked(false);
+      deleteCookie(`disliked_${postId}`);
+    } else {
+      // If liked, remove like first
+      if (isLiked) {
+        updateLikeRating(likeRating - 1);
+        setIsLiked(false);
+        deleteCookie(`liked_${postId}`);
+      }
+      // Add dislike
+      updateLikeRating(likeRating - 1);
+      setIsDisliked(true);
+      setCookie(`disliked_${postId}`, "true", { maxAge: 60 * 60 });
     }
   };
 
@@ -79,20 +98,24 @@ const PostRating: React.FC<PostRatingProps> = ({ postId }) => {
     <div className="flex items-center space-x-4">
       <button
         onClick={handleDislike}
-        className={`px-4 py-2 rounded ${
-          isDisliked ? "bg-red-600 text-white" : "bg-red-500 text-white"
-        } hover:bg-red-700`}
+        className={`px-4 py-2 rounded transition-colors duration-300 ${
+          isDisliked
+            ? "bg-red-700 text-white ring-2 ring-red-700"
+            : "bg-red-500 text-white hover:bg-red-600"
+        }`}
       >
-        Dislike
+        {isDisliked ? "⬇️" : "⬇️"}
       </button>
       <span className="text-xl">{likeRating}</span>
       <button
         onClick={handleLike}
-        className={`px-4 py-2 rounded ${
-          isLiked ? "bg-green-600 text-white" : "bg-green-500 text-white"
-        } hover:bg-green-700`}
+        className={`px-4 py-2 rounded transition-colors duration-300 ${
+          isLiked
+            ? "bg-green-700 text-white ring-2 ring-green-700"
+            : "bg-green-500 text-white hover:bg-green-600"
+        }`}
       >
-        Like
+        {isLiked ? "⬆️" : "⬆️"}
       </button>
     </div>
   );
