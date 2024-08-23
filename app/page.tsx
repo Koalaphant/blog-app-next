@@ -38,7 +38,7 @@ export default async function Page() {
               <img
                 src={data[0].featured_image_url}
                 alt=""
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
               <div
                 className="absolute top-0 left-0 w-full h-full flex flex-col justify-end p-8 gap-2"
@@ -50,7 +50,7 @@ export default async function Page() {
                 <p className="text-sm text-gray-300 italic">
                   {formatDate(data[0].createdAt)}
                 </p>
-                <p className="text-white text-lg sm:text-4xl font-bold">
+                <p className="text-white text-2xl sm:text-4xl font-bold lg:w-2/3">
                   {data[0].title}
                 </p>
                 <div
