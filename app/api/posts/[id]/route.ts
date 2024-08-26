@@ -2,12 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Handler for GET requests to fetch a post by ID
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         const postId = parseInt(params.id, 10);
 
-        // Validate that the ID is a number
         if (isNaN(postId)) {
             return new Response(
                 JSON.stringify({ message: "Invalid post ID" }),
@@ -18,12 +16,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
             );
         }
 
-        // Fetch the post by ID
         const post = await prisma.post.findUnique({
             where: { id: postId },
         });
 
-        // Check if the post exists
         if (!post) {
             return new Response(
                 JSON.stringify({ message: "Post not found" }),
@@ -34,7 +30,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
             );
         }
 
-        // Return the post data
         return new Response(
             JSON.stringify(post),
             {
@@ -53,13 +48,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 }
 
-// Handler for PATCH requests to update a post's like_rating
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
     try {
         const postId = parseInt(params.id, 10);
         const { like_rating } = await request.json();
 
-        // Validate that the ID is a number and like_rating is provided
         if (isNaN(postId)) {
             return new Response(
                 JSON.stringify({ message: "Invalid post ID" }),
@@ -80,7 +73,6 @@ export async function PATCH(request: Request, { params }: { params: { id: string
             );
         }
 
-        // Ensure like_rating is a number
         if (typeof like_rating !== 'number') {
             return new Response(
                 JSON.stringify({ message: "like_rating must be a number" }),
@@ -91,13 +83,11 @@ export async function PATCH(request: Request, { params }: { params: { id: string
             );
         }
 
-        // Update the post's like_rating
         const updatedPost = await prisma.post.update({
             where: { id: postId },
             data: { like_rating },
         });
 
-        // Return the updated post
         return new Response(
             JSON.stringify(updatedPost),
             {
@@ -113,5 +103,36 @@ export async function PATCH(request: Request, { params }: { params: { id: string
                 headers: { "Content-Type": "application/json" },
             }
         );
+    }
+}
+
+export async function DELETE(
+    request: Request, 
+    { params }: { params: { id: string } }
+): Promise<Response> {
+    try {
+        const postID = parseInt(params.id, 10);
+
+        if (isNaN(postID)) {
+            return new Response('Invalid post ID', { status: 400 });
+        }
+
+        // Optional: Check if the post exists before attempting to delete
+        const existingPost = await prisma.post.findUnique({
+            where: { id: postID }
+        });
+
+        if (!existingPost) {
+            return new Response('Post not found', { status: 404 });
+        }
+
+        await prisma.post.delete({
+            where: { id: postID }
+        });
+
+        return new Response('Post deleted successfully', { status: 200 });
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        return new Response('Internal Server Error', { status: 500 });
     }
 }
