@@ -1,8 +1,70 @@
 import React from "react";
 
-async function fetchFixtures() {
+interface Team {
+  id: number;
+  name: string;
+  logo: string;
+  winner: boolean | null;
+}
+
+interface Goals {
+  home: number | null;
+  away: number | null;
+}
+
+interface Fixture {
+  id: number;
+  referee: string | null;
+  timezone: string;
+  date: string;
+  timestamp: number;
+  periods: {
+    first: number | null;
+    second: number | null;
+  };
+  venue: {
+    id: number | null;
+    name: string;
+    city: string;
+  };
+  status: {
+    long: string;
+    short: string;
+    elapsed: number | null;
+  };
+}
+
+interface League {
+  id: number;
+  name: string;
+  country: string;
+  logo: string;
+  flag: string;
+  season: number;
+  round: string;
+}
+
+interface Game {
+  fixture: Fixture;
+  league: League;
+  teams: {
+    home: Team;
+    away: Team;
+  };
+  goals: Goals;
+  score: {
+    halftime: Goals;
+    fulltime: Goals;
+    extratime: Goals | null;
+    penalty: Goals | null;
+  };
+}
+
+async function fetchFixtures(): Promise<{ response: Game[] }> {
   try {
-    const response = await fetch("http://localhost:3000/api/fixtures");
+    const response = await fetch("http://localhost:3000/api/fixtures", {
+      next: { revalidate: 2 },
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -15,7 +77,7 @@ async function fetchFixtures() {
 }
 
 export default async function FixtureSection() {
-  let fixtures = [];
+  let fixtures: Game[] = [];
 
   try {
     const data = await fetchFixtures();
@@ -32,9 +94,32 @@ export default async function FixtureSection() {
     );
   }
 
-  const lastGame = fixtures[0];
-  const nextGame = fixtures[1];
+  // Sort fixtures by timestamp
+  fixtures.sort(
+    (a: Game, b: Game) => a.fixture.timestamp - b.fixture.timestamp
+  );
 
+  // Get the current time
+  const now = Date.now() / 1000;
+
+  // Find the last game (the most recent one that's finished or just past)
+  const lastGame = fixtures
+    .slice()
+    .reverse()
+    .find((game: Game) => game.fixture.timestamp < now);
+
+  // Find the next game (the first one that hasn't started yet)
+  const nextGame = fixtures.find((game: Game) => game.fixture.timestamp > now);
+
+  if (!lastGame || !nextGame) {
+    return (
+      <div className="h-[100px] bg-slate-900 text-white flex justify-center items-center rounded-lg border-t-4 border-red-500">
+        <p>Could not determine last or next game</p>
+      </div>
+    );
+  }
+
+  // Extract last game details
   const homeTeamLogoUrl = lastGame.teams.home.logo;
   const awayTeamLogoUrl = lastGame.teams.away.logo;
   const homeTeamName = lastGame.teams.home.name;
@@ -42,6 +127,7 @@ export default async function FixtureSection() {
   const homeGoals = lastGame.goals.home;
   const awayGoals = lastGame.goals.away;
 
+  // Extract next game details
   const nextGameHomeTeamLogoUrl = nextGame.teams.home.logo;
   const nextGameAwayTeamLogoUrl = nextGame.teams.away.logo;
   const nextGameHomeTeamName = nextGame.teams.home.name;
