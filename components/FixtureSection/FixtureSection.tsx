@@ -63,7 +63,7 @@ interface Game {
 async function fetchFixtures(): Promise<{ response: Game[] }> {
   try {
     const response = await fetch("http://localhost:3000/api/fixtures", {
-      next: { revalidate: 2 },
+      next: { revalidate: 3600 },
     });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
