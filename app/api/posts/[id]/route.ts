@@ -117,7 +117,6 @@ export async function DELETE(
             return new Response('Invalid post ID', { status: 400 });
         }
 
-        // Optional: Check if the post exists before attempting to delete
         const existingPost = await prisma.post.findUnique({
             where: { id: postID }
         });
