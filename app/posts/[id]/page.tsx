@@ -1,33 +1,48 @@
-import { PrismaClient } from "@prisma/client";
-import { formatDate } from "@/utils/dateFormat"; // Adjust the import path as needed
+import React from "react";
+import { formatDate } from "@/utils/dateFormat";
 import PostRating from "@/components/LikeButtons/PostRating";
-import parse from "html-react-parser"; // Import html-react-parser
+import parse from "html-react-parser";
+import SideBarPosts from "@/components/Blog Section/SideBarPosts";
 
-const prisma = new PrismaClient();
+interface Post {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  like_rating: number;
+  featured_image_url: string;
+}
 
-async function getPost(id: number) {
-  const post = await prisma.post.findUnique({
-    where: { id },
-  });
+async function fetchPost(id: number): Promise<Post | null> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  try {
+    const response = await fetch(`${apiUrl}/posts/${id}`, {
+      next: { revalidate: 5 },
+    });
 
-  return post;
+    if (!response.ok) {
+      throw new Error("Post not found");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    return null;
+  }
 }
 
 export default async function PostPage({ params }: { params: { id: string } }) {
   const postId = parseInt(params.id, 10);
-
-  // Fetch post data
-  const post = await getPost(postId);
+  const post = await fetchPost(postId);
 
   if (!post) {
-    // Handle post not found
     return <div>Post not found</div>;
   }
 
   const createdAtString =
     typeof post.createdAt === "string"
       ? post.createdAt
-      : post.createdAt.toISOString();
+      : new Date(post.createdAt).toISOString();
 
   const formattedContent = post.content.replace(
     /<p>/g,
@@ -58,7 +73,10 @@ export default async function PostPage({ params }: { params: { id: string } }) {
         </div>
       </div>
       <div className="flex justify-center pt-10 col-span-4 2xl:col-span-1">
-        <h3 className="font-semibold text-2xl">Latest Posts</h3>
+        <div>
+          <h3 className="font-semibold text-2xl">Latest Posts</h3>
+          <SideBarPosts />
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,6 @@ interface Post {
   featured_image_url: string;
 }
 
-// Function to fetch posts
 async function fetchPosts() {
   const response = await fetch("http://localhost:3000/api/posts", {
     next: { revalidate: 5 },
@@ -28,7 +27,6 @@ async function fetchPosts() {
   return data;
 }
 
-// Main page component
 export default async function Page() {
   const data: Post[] = await fetchPosts();
 
