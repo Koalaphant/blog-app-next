@@ -1,9 +1,7 @@
 import React from "react";
-import { truncateString } from "@/lib/truncateString";
 import RecentPosts from "@/components/Blog Section/RecentPosts";
-import { formatDate } from "@/utils/dateFormat";
-import FixtureSection from "@/components/FixtureSection/FixtureSection";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Post {
   id: number;
@@ -14,6 +12,7 @@ interface Post {
   featured_image_url: string;
 }
 
+// Function to fetch posts
 async function fetchPosts() {
   const response = await fetch("http://localhost:3000/api/posts", {
     next: { revalidate: 5 },
@@ -27,48 +26,35 @@ async function fetchPosts() {
   return data;
 }
 
+// Main page component
 export default async function Page() {
   const data: Post[] = await fetchPosts();
+
   return (
-    <div className="my-10 mx-4 lg:mx-10">
-      <div className="container mx-auto max-w-full lg:max-w-8xl">
-        <div className="grid grid-cols-1 gap-4">
-          <Link href={`/posts/${data[0].id}`}>
-            <div className="relative h-[500px] bg-red-800 rounded-md sm:rounded-lg overflow-hidden">
-              <img
-                src={data[0].featured_image_url}
-                alt=""
-                className="w-full h-full object-cover object-top"
-              />
-              <div
-                className="absolute top-0 left-0 w-full h-full flex flex-col justify-end p-8 gap-2"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0) 80%)",
-                }}
-              >
-                <p className="text-sm text-gray-300 italic">
-                  {formatDate(data[0].createdAt)}
-                </p>
-                <p className="text-white text-2xl sm:text-4xl font-bold lg:w-2/3">
-                  {data[0].title}
-                </p>
-                <div
-                  className="text-sm text-white font-light"
-                  dangerouslySetInnerHTML={{
-                    __html: truncateString(data[0].content),
-                  }}
-                />
-              </div>
-            </div>
-          </Link>
-          {/* <FixtureSection /> */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10">
-            {data.slice(1).map((post) => (
-              <RecentPosts key={post.id} post={post} />
-            ))}
+    <div className="max-w-6xl mx-auto my-10 grid gap-5">
+      <div className="grid grid-cols-5">
+        <div className="col-span-4 bg-red-300 relative w-full h-96">
+          <Image
+            src={data[0].featured_image_url}
+            layout="fill"
+            objectFit="cover"
+            alt={data[0].title}
+            className="absolute inset-0"
+          />
+          <div className="absolute inset-0 bg-black opacity-70"></div>
+          <div className="absolute bottom-0 left-0 p-4 text-white text-2xl font-bold w-1/2">
+            {data[0].title}
           </div>
         </div>
+      </div>
+      <div className="grid grid-cols-3 gap-5">
+        {data.slice(1).map((post) => (
+          <div key={post.id}>
+            <Link href={`/posts/${post.id}`}>
+              <RecentPosts post={post} />
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
