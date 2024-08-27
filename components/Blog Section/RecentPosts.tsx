@@ -17,15 +17,13 @@ interface RecentPostsProps {
   post: Post;
 }
 
-// Function to convert HTML to plain text
 const convertHtmlToText = (html: string): string => {
   return htmlToText(html, {
-    wordwrap: 130, // Adjust as needed
+    wordwrap: 130, 
   });
 };
 
 const RecentPosts: React.FC<RecentPostsProps> = ({ post }) => {
-  // Convert HTML content to plain text
   const plainContent = convertHtmlToText(truncateString(post.content));
 
   return (

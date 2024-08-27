@@ -58,7 +58,7 @@ export default async function Page() {
         </div>
       </Link>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 px-4 lg:px-0 mt-5">
-        {data.slice(1).map((post) => (
+        {data.slice(1, 7).map((post) => (
           <div key={post.id}>
             <Link href={`/posts/${post.id}`}>
               <RecentPosts post={post} />

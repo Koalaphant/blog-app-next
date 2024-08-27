@@ -27,8 +27,8 @@ async function fetchPosts() {
 export default async function page() {
   const data: Post[] = await fetchPosts();
   return (
-    <div className="max-w-6xl mx-auto my-20">
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10 mx-4">
+    <div className="max-w-6xl mx-auto my-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-10 mx-4">
         {data.map((post) => (
           <div key={post.id}>
             <Link href={`/posts/${post.id}`}>
