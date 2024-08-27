@@ -102,30 +102,16 @@ export default async function FixtureSection() {
   // Get the current time
   const now = Date.now() / 1000;
 
-  // Find the last game (the most recent one that's finished or just past)
-  const lastGame = fixtures
-    .slice()
-    .reverse()
-    .find((game: Game) => game.fixture.timestamp < now);
-
   // Find the next game (the first one that hasn't started yet)
   const nextGame = fixtures.find((game: Game) => game.fixture.timestamp > now);
 
-  if (!lastGame || !nextGame) {
+  if (!nextGame) {
     return (
       <div className="h-[100px] bg-slate-900 text-white flex justify-center items-center rounded-lg border-t-4 border-red-500">
-        <p>Could not determine last or next game</p>
+        <p>No upcoming games</p>
       </div>
     );
   }
-
-  // Extract last game details
-  const homeTeamLogoUrl = lastGame.teams.home.logo;
-  const awayTeamLogoUrl = lastGame.teams.away.logo;
-  const homeTeamName = lastGame.teams.home.name;
-  const awayTeamName = lastGame.teams.away.name;
-  const homeGoals = lastGame.goals.home;
-  const awayGoals = lastGame.goals.away;
 
   // Extract next game details
   const nextGameHomeTeamLogoUrl = nextGame.teams.home.logo;
@@ -134,72 +120,41 @@ export default async function FixtureSection() {
   const nextGameAwayTeamName = nextGame.teams.away.name;
   const nextGameDate = new Date(nextGame.fixture.date).toLocaleString();
   const nextGameVenue = nextGame.fixture.venue.name;
+  const nextGameCity = nextGame.fixture.venue.city;
 
   return (
-    <div className="bg-slate-800 flex justify-center items-center py-4 my-9">
-      <div className="flex flex-col md:flex-row items-center justify-between p-4 w-full max-w-6xl bg-slate-700 rounded-lg shadow-md">
-        {/* Next Game Section */}
-        <div className="flex flex-col items-center w-full md:w-1/2">
-          <h1 className="text-white text-lg mb-2">Next Game</h1>
-          <div className="flex items-center">
-            {/* Home Team */}
-            <div className="flex flex-col items-center mx-2">
-              <img
-                className="h-[50px] mb-1"
-                src={nextGameHomeTeamLogoUrl}
-                alt={`${nextGameHomeTeamName} logo`}
-              />
-              <p className="text-white text-sm">{nextGameHomeTeamName}</p>
-            </div>
-            {/* Versus Label */}
-            <div className="flex flex-col items-center mx-2">
-              <p className="text-white text-sm">vs</p>
-            </div>
-            {/* Away Team */}
-            <div className="flex flex-col items-center mx-2">
-              <img
-                className="h-[50px] mb-1"
-                src={nextGameAwayTeamLogoUrl}
-                alt={`${nextGameAwayTeamName} logo`}
-              />
-              <p className="text-white text-sm">{nextGameAwayTeamName}</p>
-            </div>
-          </div>
-          <p className="text-white font-light text-xs mt-2">{nextGameDate}</p>
-          <p className="text-white font-light text-xs">{nextGameVenue}</p>
-        </div>
+    // <div className="flex justify-center items-center">
+    //   <div className="flex flex-col items-center bg-slate-700 p-6 rounded-lg shadow-md">
+    //     <h1 className="text-white text-lg mb-4">Next Game</h1>
+    //     <div className="flex items-center mb-4">
+    //       {/* Home Team */}
+    //       <div className="flex flex-col items-center mx-4">
+    //         <img
+    //           className="h-[50px] mb-2"
+    //           src={nextGameHomeTeamLogoUrl}
+    //           alt={`${nextGameHomeTeamName} logo`}
+    //         />
+    //         <p className="text-white text-sm">{nextGameHomeTeamName}</p>
+    //       </div>
+    //       {/* Versus Label */}
+    //       <div className="text-white text-sm mx-2">vs</div>
+    //       {/* Away Team */}
+    //       <div className="flex flex-col items-center mx-4">
+    //         <img
+    //           className="h-[50px] mb-2"
+    //           src={nextGameAwayTeamLogoUrl}
+    //           alt={`${nextGameAwayTeamName} logo`}
+    //         />
+    //         <p className="text-white text-sm">{nextGameAwayTeamName}</p>
+    //       </div>
+    //     </div>
+    //     <p className="text-white text-xs mb-1">{nextGameDate}</p>
+    //     <p className="text-white text-xs">
+    //       {nextGameVenue}, {nextGameCity}
+    //     </p>
+    //   </div>
+    // </div>
 
-        {/* Last Game Section */}
-        <div className="flex flex-col items-center w-full md:w-1/2 mt-10 md:mt-0">
-          <h1 className="text-white text-lg mb-2">Last Game</h1>
-          <div className="flex items-center">
-            {/* Home Team */}
-            <div className="flex flex-col items-center mx-2">
-              <img
-                className="h-[50px] mb-1"
-                src={homeTeamLogoUrl}
-                alt={`${homeTeamName} logo`}
-              />
-              <p className="text-white text-sm">{homeTeamName}</p>
-              <p className="text-white text-sm mt-1">{homeGoals}</p>
-            </div>
-            {/* Versus Label */}
-            <div className="flex flex-col items-center mx-2">
-              <p className="text-white text-sm">vs</p>
-            </div>
-            {/* Away Team */}
-            <div className="flex flex-col items-center mx-2">
-              <img
-                className="h-[50px] mb-1"
-                src={awayTeamLogoUrl}
-                alt={`${awayTeamName} logo`}
-              />
-              <p className="text-white text-sm">{awayTeamName}</p>
-              <p className="text-white text-sm mt-1">{awayGoals}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div>ds</div>
   );
 }
