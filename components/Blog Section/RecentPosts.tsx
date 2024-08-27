@@ -38,7 +38,7 @@ const RecentPosts: React.FC<RecentPostsProps> = ({ post }) => {
       </div>
       <div className="px-5 py-5 flex flex-col flex-grow border-t-4 border-yellow-300">
         <div className="mb-2">
-          <h3 className="text-lg text-white">{post.title}</h3>
+          <h3 className="text-lg font-bold text-white">{post.title}</h3>
         </div>
         <div className="flex-grow flex flex-col justify-end text-white">
           <p className="font-extralight" style={{ marginBottom: "16px" }}>
