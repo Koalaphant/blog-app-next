@@ -10,7 +10,7 @@ export default function NavBar() {
   ];
 
   return (
-    <nav className="bg-red-800 flex flex-col items-center justify-center py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 lg:px-10 border-b-2 border-yellow-300">
+    <nav className="bg-red-800 flex flex-col items-center justify-center py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 lg:px-10 border-b-4 border-yellow-300">
       <div className="flex justify-center items-center gap-3 lg:gap-2">
         <Link href="/">
           <img
