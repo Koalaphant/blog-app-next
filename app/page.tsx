@@ -62,7 +62,7 @@ export default async function Page() {
               </div>
             </div>
           </Link>
-          <FixtureSection />
+          {/* <FixtureSection /> */}
           <div className="grid sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-5 md:gap-y-10 md:gap-x-10 mb-10">
             {data.slice(1).map((post) => (
               <RecentPosts key={post.id} post={post} />
