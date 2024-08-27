@@ -29,12 +29,12 @@ const RecentPosts: React.FC<RecentPostsProps> = ({ post }) => {
   const plainContent = convertHtmlToText(truncateString(post.content));
 
   return (
-    <div className="bg-red-800 h-full flex flex-col">
+    <div className="bg-red-800 h-full flex flex-col shadow-md">
       <div
         className="relative bg-cover bg-center h-64"
         style={{ backgroundImage: `url(${post.featured_image_url})` }}
       >
-        <div className="absolute top-3 right-3 bg-gray-900 text-white px-3 py-1 rounded">
+        <div className="absolute top-3 right-3 bg-gray-900 text-white px-3 py-1 rounded shadow-md">
           {formatDate(post.createdAt)}
         </div>
       </div>

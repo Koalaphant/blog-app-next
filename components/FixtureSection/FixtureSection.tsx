@@ -155,6 +155,36 @@ export default async function FixtureSection() {
     //   </div>
     // </div>
 
-    <div>ds</div>
+    <div className="text-white flex flex-col justify-center items-center h-full  border-t-8 border-red-800">
+      <div className="flex justify-center items-center gap-4">
+        <div className="flex flex-col items-center justify-center">
+          <img
+            className="h-[50px] mb-2"
+            src={nextGameHomeTeamLogoUrl}
+            alt={`${nextGameHomeTeamName} logo`}
+          />
+          <p className="text-white text-sm text-center">
+            {nextGameHomeTeamName}
+          </p>
+        </div>
+        <div className="text-2xl font-bold">V</div>
+        <div className="flex flex-col items-center justify-center">
+          <img
+            className="h-[50px] mb-2"
+            src={nextGameAwayTeamLogoUrl}
+            alt={`${nextGameAwayTeamName} logo`}
+          />
+          <p className="text-white text-sm text-center">
+            {nextGameAwayTeamName}
+          </p>
+        </div>
+      </div>
+      <div className="text-center mt-2">
+        <p className="text-white text-xs mb-1">{nextGameDate}</p>
+        <p className="text-white text-xs">
+          {nextGameVenue}, {nextGameCity}
+        </p>
+      </div>
+    </div>
   );
 }
