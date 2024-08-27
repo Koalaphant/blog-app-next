@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { formatDate } from "@/utils/dateFormat"; // Adjust the import path as needed
 import PostRating from "@/components/LikeButtons/PostRating";
+import parse from "html-react-parser"; // Import html-react-parser
 
 const prisma = new PrismaClient();
 
@@ -23,14 +24,18 @@ export default async function PostPage({ params }: { params: { id: string } }) {
     return <div>Post not found</div>;
   }
 
-  // Ensure the createdAt is a string; if it's a Date object, convert it
   const createdAtString =
     typeof post.createdAt === "string"
       ? post.createdAt
       : post.createdAt.toISOString();
 
+  const formattedContent = post.content.replace(
+    /<p>/g,
+    '<p style="margin-bottom: 1.5rem;">'
+  );
+
   return (
-    <div className="grid grid-cols-4 gap-5 p-4 max-w-7xl mx-auto">
+    <div className="grid grid-cols-4 gap-5 p-4 lg:p-20 xl:p-4 max-w-7xl mx-auto">
       <div className="col-span-4 2xl:col-span-3 xl:px-20">
         {post.featured_image_url && (
           <img
@@ -44,21 +49,15 @@ export default async function PostPage({ params }: { params: { id: string } }) {
         </p>
         <h1 className="text-3xl font-bold mb-8">{post.title}</h1>
 
-        <div
-          className="font-extralight text-xl"
-          dangerouslySetInnerHTML={{
-            __html: post.content.replace(
-              /<p>/g,
-              '<p style="margin-bottom: 1.5rem;">'
-            ),
-          }}
-        />
+        <div className="leading-relaxed lg:text-xl">
+          {parse(formattedContent)}
+        </div>
 
         <div>
           <PostRating postId={post.id} />
         </div>
       </div>
-      <div className="flex justify-center pt-10  col-span-4 2xl:col-span-1">
+      <div className="flex justify-center pt-10 col-span-4 2xl:col-span-1">
         <h3 className="font-semibold text-2xl">Latest Posts</h3>
       </div>
     </div>
