@@ -19,7 +19,7 @@ interface RecentPostsProps {
 
 const convertHtmlToText = (html: string): string => {
   return htmlToText(html, {
-    wordwrap: 130, 
+    wordwrap: 130,
   });
 };
 
@@ -36,7 +36,7 @@ const RecentPosts: React.FC<RecentPostsProps> = ({ post }) => {
           {formatDate(post.createdAt)}
         </div>
       </div>
-      <div className="px-5 py-5 flex flex-col flex-grow">
+      <div className="px-5 py-5 flex flex-col flex-grow border-t-4 border-yellow-300">
         <div className="mb-2">
           <h3 className="text-lg text-white">{post.title}</h3>
         </div>
