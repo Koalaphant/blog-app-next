@@ -33,9 +33,9 @@ export default async function Page() {
   const data: Post[] = await fetchPosts();
 
   return (
-    <div className="max-w-6xl mx-auto my-10">
+    <div className="max-w-6xl mx-auto lg:my-10">
       <Link href={`/posts/${data[0].id}`}>
-        <div className="flex flex-col xl:flex-row gap-5">
+        <div className="flex flex-col xl:flex-row xl:gap-5">
           <div className="w-full xl:flex-[4.5] relative h-[300px] md:h-[400px] xl:h-[500px] shadow-md">
             <Image
               src={data[0].featured_image_url}
