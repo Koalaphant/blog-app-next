@@ -48,7 +48,7 @@ export default async function Page() {
               {formatDate(data[0].createdAt)}
             </div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90"></div>
-            <div className="absolute bottom-0 left-0 p-4 text-white text-3xl md:text-4xl font-bold w-full md:w-3/4">
+            <div className="absolute bottom-0 left-0 p-4 sm:pb-8 sm:pl-8 text-white text-2xl sm:text-3xl lg:text-4xl font-bold w-full md:w-3/4 leading-normal xl:leading-[1.3]">
               {data[0].title}
             </div>
           </div>
