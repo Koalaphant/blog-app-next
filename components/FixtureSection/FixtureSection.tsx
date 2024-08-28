@@ -94,15 +94,12 @@ export default async function FixtureSection() {
     );
   }
 
-  // Sort fixtures by timestamp
   fixtures.sort(
     (a: Game, b: Game) => a.fixture.timestamp - b.fixture.timestamp
   );
 
-  // Get the current time
   const now = Date.now() / 1000;
 
-  // Find the next game (the first one that hasn't started yet)
   const nextGame = fixtures.find((game: Game) => game.fixture.timestamp > now);
 
   if (!nextGame) {
@@ -113,48 +110,22 @@ export default async function FixtureSection() {
     );
   }
 
-  // Extract next game details
   const nextGameHomeTeamLogoUrl = nextGame.teams.home.logo;
   const nextGameAwayTeamLogoUrl = nextGame.teams.away.logo;
   const nextGameHomeTeamName = nextGame.teams.home.name;
   const nextGameAwayTeamName = nextGame.teams.away.name;
-  const nextGameDate = new Date(nextGame.fixture.date).toLocaleString();
+
+  const nextGameDateObj = new Date(nextGame.fixture.date);
+  const nextGameDate = nextGameDateObj.toLocaleDateString("en-GB"); // UK format: dd/mm/yyyy
+  const nextGameTime = nextGameDateObj.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   const nextGameVenue = nextGame.fixture.venue.name;
   const nextGameCity = nextGame.fixture.venue.city;
 
   return (
-    // <div className="flex justify-center items-center">
-    //   <div className="flex flex-col items-center bg-slate-700 p-6 rounded-lg shadow-md">
-    //     <h1 className="text-white text-lg mb-4">Next Game</h1>
-    //     <div className="flex items-center mb-4">
-    //       {/* Home Team */}
-    //       <div className="flex flex-col items-center mx-4">
-    //         <img
-    //           className="h-[50px] mb-2"
-    //           src={nextGameHomeTeamLogoUrl}
-    //           alt={`${nextGameHomeTeamName} logo`}
-    //         />
-    //         <p className="text-white text-sm">{nextGameHomeTeamName}</p>
-    //       </div>
-    //       {/* Versus Label */}
-    //       <div className="text-white text-sm mx-2">vs</div>
-    //       {/* Away Team */}
-    //       <div className="flex flex-col items-center mx-4">
-    //         <img
-    //           className="h-[50px] mb-2"
-    //           src={nextGameAwayTeamLogoUrl}
-    //           alt={`${nextGameAwayTeamName} logo`}
-    //         />
-    //         <p className="text-white text-sm">{nextGameAwayTeamName}</p>
-    //       </div>
-    //     </div>
-    //     <p className="text-white text-xs mb-1">{nextGameDate}</p>
-    //     <p className="text-white text-xs">
-    //       {nextGameVenue}, {nextGameCity}
-    //     </p>
-    //   </div>
-    // </div>
-
     <div className="text-white flex flex-col justify-center items-center h-full  border-t-8 border-red-800">
       <div className="flex justify-center items-center gap-4">
         <div className="flex flex-col items-center justify-center">
@@ -180,7 +151,7 @@ export default async function FixtureSection() {
         </div>
       </div>
       <div className="text-center mt-2">
-        <p className="text-white text-xs mb-1">{nextGameDate}</p>
+        <p className="text-white text-xs mb-1">{`${nextGameDate} ${nextGameTime}`}</p>
         <p className="text-white text-xs">
           {nextGameVenue}, {nextGameCity}
         </p>
