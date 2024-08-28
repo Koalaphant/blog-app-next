@@ -2,11 +2,11 @@
 
 import { uploadImage } from "@/lib/uploadImage";
 import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
-import TipTap from "./TipTap"; 
+import TipTap from "./TipTap";
 
 export default function BlogForm() {
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>(""); 
+  const [content, setContent] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
@@ -21,7 +21,7 @@ export default function BlogForm() {
   };
 
   const handleContentChange = (newContent: string) => {
-    setContent(newContent); 
+    setContent(newContent);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,9 +69,8 @@ export default function BlogForm() {
       const result = await response.json();
       console.log("Form Submitted successfully:", result);
 
-      
       setTitle("");
-      setContent(""); 
+      setContent("");
       setImage(null);
       setImagePreview(null);
       setSuccess("Submitted successfully.");
@@ -79,7 +78,6 @@ export default function BlogForm() {
 
       handleContentChange("");
 
-      
       if (imageInputRef.current) {
         imageInputRef.current.value = "";
       }
@@ -90,7 +88,7 @@ export default function BlogForm() {
   };
 
   return (
-    <div className="min-w-full space-y-4 p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
+    <div className="space-y-4 p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
@@ -129,7 +127,7 @@ export default function BlogForm() {
             accept="image/*"
             className="border border-gray-300 p-3 rounded-lg w-full"
             onChange={handleImageChange}
-            ref={imageInputRef} 
+            ref={imageInputRef}
           />
           {imagePreview && (
             <div className="w-full mt-4">
