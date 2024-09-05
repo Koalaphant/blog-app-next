@@ -57,20 +57,23 @@ export default function PostsDashboard() {
   };
 
   return (
-    <ul>
-      {posts.map((post) => (
-        <li key={post.id}>
-          <div>
-            <h1>{post.title}</h1>
-            <button
-              className="bg-red-800 text-white p-3"
-              onClick={() => handleDelete(post.id)}
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h1 className="text-center pt-10 font-extrabold text-3xl ">Dashboard</h1>
+      <ul className="py-10 px-3 flex flex-col gap-5">
+        {posts.map((post) => (
+          <li key={post.id} className="flex border-2 p-4">
+            <div className="flex flex-col gap-2">
+              <h1>{post.title}</h1>
+              <button
+                className="bg-red-800 text-white p-2 w-full"
+                onClick={() => handleDelete(post.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
