@@ -10,7 +10,6 @@ interface Post {
 export default function PostsDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  // Fetch posts when the component mounts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -28,7 +27,6 @@ export default function PostsDashboard() {
     fetchPosts();
   }, []);
 
-  // Handle the deletion of a post
   const handleDelete = async (postId: number) => {
     try {
       await deletePost(postId);
@@ -39,7 +37,6 @@ export default function PostsDashboard() {
     }
   };
 
-  // Function to delete a post from the backend
   const deletePost = async (postId: number): Promise<void> => {
     try {
       const response = await fetch(
