@@ -22,7 +22,7 @@
     },
     "typeRoots": [
       "./node_modules/@types",
-      "./types"  // Add this line to include your custom types
+      "./types"
     ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
