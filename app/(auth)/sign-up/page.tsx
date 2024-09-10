@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const FormSchema = z
@@ -54,7 +53,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-md mx-auto mt-40 mb-40 p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -146,23 +145,6 @@ const SignUpForm = () => {
           Sign Up
         </button>
       </form>
-
-      <div className="mt-6 flex items-center justify-between">
-        <hr className="w-full border-gray-300" />
-        <span className="text-sm text-gray-500 px-2">or</span>
-        <hr className="w-full border-gray-300" />
-      </div>
-
-      <button className="w-full mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
-        Sign up with Google
-      </button>
-
-      <p className="mt-4 text-center text-sm text-gray-600">
-        Already have an account?&nbsp;
-        <Link href="/sign-in" className="text-blue-500 hover:underline">
-          Sign in
-        </Link>
-      </p>
     </div>
   );
 };
