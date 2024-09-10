@@ -34,6 +34,7 @@ const SignInForm = () => {
     if(signInData?.error) {
       console.log(signInData.error)
     } else{
+      router.refresh()
       router.push('/dashboard')
     }
   };

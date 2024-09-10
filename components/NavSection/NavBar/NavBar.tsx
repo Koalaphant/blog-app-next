@@ -1,8 +1,15 @@
 import React from "react";
 import NavLink from "../NavLinks/NavLinks"; // Make sure to adjust the path as needed
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { signOut } from "next-auth/react";
+import SignOut from "./SignOut";
 
-export default function NavBar() {
+export default async function NavBar() {
+
+  const session = await getServerSession(authOptions)
+
   const links = [
     { label: "Home", href: "/" },
     { label: "Posts", href: "/posts" },
@@ -30,6 +37,11 @@ export default function NavBar() {
           <NavLink key={link.label} label={link.label} href={link.href} />
         ))}
       </div>
+      {session?.user ? (
+        <SignOut/>
+      ) : (
+      null
+      )}
     </nav>
   );
 }
