@@ -7,8 +7,7 @@ import { signOut } from "next-auth/react";
 import SignOut from "./SignOut";
 
 export default async function NavBar() {
-
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   const links = [
     { label: "Home", href: "/" },
@@ -37,11 +36,7 @@ export default async function NavBar() {
           <NavLink key={link.label} label={link.label} href={link.href} />
         ))}
       </div>
-      {session?.user ? (
-        <SignOut/>
-      ) : (
-      null
-      )}
+      {session?.user ? <SignOut /> : null}
     </nav>
   );
 }
