@@ -1,18 +1,51 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { Caveat } from "next/font/google";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
 
+  async function getData() {
+    try {
+      const response = await fetch("http://localhost:3000/api/posts", {
+        next: { revalidate: 5 },
+      });
+
+      if (!response.ok) {
+        throw new Error("Response is not ok");
+      }
+
+      const json = await response.json();
+      return json; // Returning the fetched data
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  const data = await getData(); // Fetching the data
+
   if (session?.user) {
     return (
-      <div className="flex justify-center">
+      <div className="flex-col justify-center">
         <div className="m-5 bg-red-800 px-5 py-4">
           <h1 className="text-white">
             Welcome back{" "}
             {session.user.username[0].toUpperCase() +
               session.user.username.slice(1)}
           </h1>
+        </div>
+
+        <div>
+          {data ? (
+            <ul>
+              {data.map((post: any) => (
+                <li key={post.id}>{post.title}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No posts available</p>
+          )}
         </div>
       </div>
     );
