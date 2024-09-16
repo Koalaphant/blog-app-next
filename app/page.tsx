@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import FixtureSection from "@/components/FixtureSection/FixtureSection";
 import { formatDate } from "@/utils/dateFormat";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 interface Post {
   id: number;
@@ -29,10 +31,19 @@ async function fetchPosts() {
 
 export default async function Page() {
   const data: Post[] = await fetchPosts();
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="max-w-6xl mx-auto lg:my-10">
-      <Link className="bg-blue-500 text-white px-4 py-2 rounded-md mb-5 block text-center" href={'/dashboard'}>Dashboard</Link>
+      {session?.user && (
+        <Link
+          className="bg-blue-500 text-white px-4 py-2 rounded-md mb-5 block text-center"
+          href={"/dashboard"}
+        >
+          Dashboard
+        </Link>
+      )}
+
       <Link href={`/posts/${data[0].id}`}>
         <div className="flex flex-col xl:flex-row xl:gap-5">
           <div className="w-full xl:flex-[4.5] relative h-[300px] md:h-[400px] xl:h-[500px] shadow-md">
