@@ -40,7 +40,10 @@ const page = async () => {
           {data ? (
             <ul>
               {data.map((post: any) => (
-                <li key={post.id}>{post.title}</li>
+                <li key={post.id}>
+                  {post.title}
+                  <p>{post.id}</p>
+                </li>
               ))}
             </ul>
           ) : (
