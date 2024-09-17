@@ -46,47 +46,54 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            placeholder="mail@example.com"
-            {...form.register("email")}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-          {form.formState.errors.email && (
-            <p className="mt-2 text-sm text-red-600">
-              {form.formState.errors.email.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            {...form.register("password")}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-          {form.formState.errors.password && (
-            <p className="mt-2 text-sm text-red-600">
-              {form.formState.errors.password.message}
-            </p>
-          )}
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-red-800 p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-6"
         >
-          Sign in
-        </button>
-      </form>
+          <div>
+            <label className="text-white block text-sm font-semibold mb-2">
+              Email:
+            </label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              {...form.register("email")}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900"
+            />
+            {form.formState.errors.email && (
+              <p className="mt-2 text-sm text-red-400">
+                {form.formState.errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-white block text-sm font-semibold mb-2">
+              Password:
+            </label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              {...form.register("password")}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900"
+            />
+            {form.formState.errors.password && (
+              <p className="mt-2 text-sm text-red-400">
+                {form.formState.errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Sign in
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
