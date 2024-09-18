@@ -16,7 +16,7 @@ export default function NavLink({ label, href }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className={`px-3 py-2 ${
+      className={` ${
         isActive
           ? "text-white font-extrabold underline underline-offset-4"
           : "text-white"

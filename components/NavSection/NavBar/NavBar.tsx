@@ -31,12 +31,12 @@ export default async function NavBar() {
           </h1>
         </Link>
       </div>
-      <div className="flex space-x-4">
+      <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
         {links.map((link) => (
           <NavLink key={link.label} label={link.label} href={link.href} />
         ))}
+        {session?.user && <SignOut />}
       </div>
-      {session?.user ? <SignOut /> : null}
     </nav>
   );
 }
