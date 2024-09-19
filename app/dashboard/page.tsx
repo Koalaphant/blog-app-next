@@ -36,11 +36,11 @@ const page = async () => {
           </h1>
         </div>
 
-        <div>
+        <div className="m-5 bg-red-800 p-3">
           {data ? (
             <ul>
               {data.map((post: any) => (
-                <li key={post.id}>
+                <li key={post.id} className="text-white">
                   {post.title}
                   <p>{post.id}</p>
                 </li>
