@@ -28,21 +28,26 @@ const page = async () => {
   if (session?.user) {
     return (
       <div className="flex-col justify-center">
-        <div className="m-5 bg-red-800 px-5 py-4">
-          <h1 className="text-white">
-            Welcome back{" "}
+        <div className="m-5 px-5 py-4">
+          <h1 className="text-red-800">
+            Welcome back,{" "}
             {session.user.username[0].toUpperCase() +
               session.user.username.slice(1)}
           </h1>
         </div>
 
-        <div className="m-5 bg-red-800 p-3">
+        <div className="">
           {data ? (
             <ul>
               {data.map((post: any) => (
-                <li key={post.id} className="text-white">
+                <li
+                  key={post.id}
+                  className="bg-red-800 m-5 p-5 flex justify-between align-middle  items-center text-white"
+                >
                   {post.title}
-                  <p>{post.id}</p>
+                  <button className="bg-white text-black px-3 py-2">
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
