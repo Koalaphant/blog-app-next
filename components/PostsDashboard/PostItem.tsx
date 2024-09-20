@@ -1,18 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
+// Define the Post type
 interface Post {
   id: number;
   title: string;
 }
 
-export default function PostsDashboard() {
+export default function PostItem() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch posts when the component mounts
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
         const response = await fetch("http://localhost:3000/api/posts");
         if (!response.ok) {
@@ -21,7 +25,10 @@ export default function PostsDashboard() {
         const data = await response.json();
         setPosts(data);
       } catch (error) {
-        console.error(error);
+        // Type assertion to handle the unknown type
+        setError((error as Error).message || "An error occurred");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,7 +42,8 @@ export default function PostsDashboard() {
       // Update the state to remove the deleted post
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
     } catch (error) {
-      console.error(error);
+      // Type assertion to handle the unknown type
+      setError((error as Error).message || "Failed to delete the post");
     }
   };
 
@@ -55,9 +63,13 @@ export default function PostsDashboard() {
 
       console.log(`Post with id ${postId} deleted successfully`);
     } catch (error) {
-      console.error(error);
+      // Type assertion to handle the unknown type
+      throw new Error((error as Error).message || "Failed to delete the post");
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <ul>

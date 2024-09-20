@@ -1,6 +1,6 @@
+import PostItem from "@/components/PostsDashboard/PostItem";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { Caveat } from "next/font/google";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -28,7 +28,7 @@ const page = async () => {
   if (session?.user) {
     return (
       <div className="flex-col justify-center">
-        <div className="m-5 px-5 py-4">
+        <div className="m-5">
           <h1 className="text-red-800">
             Welcome back,{" "}
             {session.user.username[0].toUpperCase() +
@@ -37,22 +37,10 @@ const page = async () => {
         </div>
 
         <div className="">
-          {data ? (
-            <ul>
-              {data.map((post: any) => (
-                <li
-                  key={post.id}
-                  className="bg-red-800 m-5 p-5 flex justify-between align-middle  items-center text-white"
-                >
-                  {post.title}
-                  <button className="bg-white text-black px-3 py-2">
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
+          {data.length > 0 ? (
+            <PostItem />
           ) : (
-            <p>No posts available</p>
+            <p className="m-5">No posts available</p>
           )}
         </div>
       </div>
