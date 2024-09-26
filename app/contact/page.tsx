@@ -57,30 +57,46 @@ export default function Page() {
       <h1 className="text-red-800 font-bold text-3xl mb-1">Contact Us</h1>
       <p>Let us know what you think of our content here...</p>
 
-      <form onSubmit={formSubmission}>
-        <input
-          type="text"
-          onChange={handleNameChange}
-          placeholder="Name"
-          value={name}
-          className="mb-2 p-1 border border-gray-400"
-        />
-        {nameError && <p className="text-red-800 text-sm">{nameError}</p>}
+      <form
+        onSubmit={formSubmission}
+        className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-md"
+      >
+        <div className="mb-4">
+          <input
+            type="text"
+            onChange={handleNameChange}
+            placeholder="Name"
+            value={name}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {nameError && (
+            <p className="text-red-800 text-sm mt-1">{nameError}</p>
+          )}
+        </div>
 
-        <input
-          type="text"
-          onChange={handleMessageChange}
-          placeholder="Message"
-          value={message}
-          className="mb-2 p-1 border border-gray-400"
-        />
-        {messageError && <p className="text-red-800 text-sm">{messageError}</p>}
+        <div className="mb-4">
+          <input
+            type="text"
+            onChange={handleMessageChange}
+            placeholder="Message"
+            value={message}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {messageError && (
+            <p className="text-red-800 text-sm mt-1">{messageError}</p>
+          )}
+        </div>
 
-        <button type="submit" className="mt-3 p-2 bg-blue-500 text-white">
+        <button
+          type="submit"
+          className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300"
+        >
           Submit
         </button>
 
-        {error && <p className="text-red-800 text-sm">{error}</p>}
+        {error && (
+          <p className="text-red-800 text-sm mt-3 text-center">{error}</p>
+        )}
       </form>
     </div>
   );
