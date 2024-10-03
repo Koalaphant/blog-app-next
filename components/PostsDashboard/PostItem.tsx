@@ -35,11 +35,9 @@ export default function PostItem() {
     fetchPosts();
   }, []);
 
-  // Handle the deletion of a post
   const handleDelete = async (postId: number) => {
     try {
       await deletePost(postId);
-      // Update the state to remove the deleted post
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
     } catch (error) {
       // Type assertion to handle the unknown type
@@ -47,7 +45,6 @@ export default function PostItem() {
     }
   };
 
-  // Function to delete a post from the backend
   const deletePost = async (postId: number): Promise<void> => {
     try {
       const response = await fetch(
