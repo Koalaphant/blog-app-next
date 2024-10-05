@@ -97,6 +97,7 @@ const PostRating: React.FC<PostRatingProps> = ({ postId }) => {
   return (
     <div className="flex items-center space-x-4">
       <h1>Give us some feedback by leaving a like rating: </h1>
+      <p>Or drop us a message</p>
       <button
         onClick={handleDislike}
         className={`px-4 py-2 rounded transition-colors duration-300 ${
