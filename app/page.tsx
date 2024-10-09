@@ -35,6 +35,14 @@ export default async function Page() {
 
   return (
     <div className="max-w-6xl mx-auto lg:my-10">
+      <div className="shadow-md flex flex-col items-center justify-center text-center bg-red-800 my-8 p-8">
+        <div>
+          <h1 className="text-5xl mb-4 text-white font-bold">LFC Blog</h1>
+          <p className="text-white text-2xl">
+            Bringing you the latest topics, news and transfers for LFC
+          </p>
+        </div>
+      </div>
       {session?.user && (
         <Link
           className="bg-blue-500 text-white px-4 py-2 rounded-md mb-5 block text-center"
