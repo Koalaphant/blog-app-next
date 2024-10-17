@@ -4,6 +4,7 @@ import PostRating from "@/components/LikeButtons/PostRating";
 import parse from "html-react-parser";
 import SideBarPosts from "@/components/Blog Section/SideBarPosts";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Post {
   id: number;
@@ -75,7 +76,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
     <div className="grid grid-cols-4 gap-5 p-4 lg:p-20 xl:p-4 max-w-7xl mx-auto">
       <div className="col-span-4 2xl:col-span-3 xl:px-20">
         {post.featured_image_url && (
-          <img
+          <Image
             src={post.featured_image_url}
             alt={post.title}
             className="w-full h-auto rounded-md mb-10"
