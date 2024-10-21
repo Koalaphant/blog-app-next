@@ -83,7 +83,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
           />
         )}
         <p className="text-sm text-gray-500 mb-3">
-          {formatDate(createdAtString)}
+          Date:{formatDate(createdAtString)}
         </p>
         <h1 className="text-3xl font-bold mb-8">{post.title}</h1>
 
