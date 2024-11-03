@@ -57,7 +57,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   const allPosts = await fetchAllPosts();
 
   if (!post) {
-    return <div>No post found</div>;
+    return <div>No posts found</div>;
   }
 
   const filteredPosts = allPosts.filter((p) => p.id !== postId);
